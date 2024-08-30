@@ -1,0 +1,30 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using RememberTask.Models;
+using RememberTask.Service;
+
+namespace RememberTask.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LoginController : ControllerBase
+    {
+        private readonly LoginService _loginServce;
+        public LoginController(LoginService loginService)
+        {
+            _loginServce = loginService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Get(string login, string password)
+        {
+            return Ok(await _loginServce.Login(login, password));
+        } 
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Post(User user)
+        {
+            return Ok(await _loginServce.Register(user));
+        }
+    }
+}
