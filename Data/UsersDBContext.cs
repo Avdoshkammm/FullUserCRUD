@@ -8,5 +8,6 @@ namespace RememberTask.Data
         public UsersDBContext(DbContextOptions<UsersDBContext> options) : base(options) { }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
