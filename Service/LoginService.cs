@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RememberTask.Data;
 using RememberTask.Interface;
 using RememberTask.Models;
@@ -56,7 +55,5 @@ namespace RememberTask.Service
 
             //return user;
         }
-
-
     }
 }
