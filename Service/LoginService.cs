@@ -49,11 +49,6 @@ namespace RememberTask.Service
             await _usersDbContext.Users.AddAsync(addUser);
             await _usersDbContext.SaveChangesAsync();
             return addUser;
-            //await _usersDbContext.Users.AddAsync(user);
-            //await _usersDbContext.SaveChangesAsync();
-            //Console.WriteLine("User success add");
-
-            //return user;
         }
     }
 }

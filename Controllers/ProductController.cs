@@ -15,31 +15,36 @@ namespace RememberTask.Controllers
             _productService = productService;
         }
 
-        [HttpGet("GetAll")]
+        [Route("GetAll")]
+        [HttpGet]
         public async Task<ActionResult<Product>> AllProducts()
         {
             return Ok(await _productService.GetAllProduct());
         }
 
-        [HttpGet("GetByID")]
+        [Route("GetByID")]
+        [HttpGet]
         public async Task<IActionResult> GetProduct(int id)
         {
             return Ok(await _productService.GetProductByID(id));
         }
 
-        [HttpPost("Add product")]
+        [Route("Add product")]
+        [HttpPost]
         public async Task<ActionResult<Product>> AddProduct(Product product)
         {
             return Ok(await _productService.CreateProduct(product));
         }
 
-        [HttpPut("Edit product")]
+        [Route("Edit product")]
+        [HttpPut]
         public async Task<ActionResult<List<Product>>> UpdateProduct(Product product, int id)
         {
             return Ok(await _productService.UpdateProduct(id, product));
         }
 
-        [HttpDelete("Delete product")]
+        [Route("Delete product")]
+        [HttpDelete]
         public async Task<ActionResult<List<Product>>> DeleteProduct(int id)
         {
             return Ok(await _productService.DeleteProduct(id));

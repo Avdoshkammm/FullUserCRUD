@@ -14,32 +14,36 @@ namespace RememberTask.Controllers
         {
             userService = _userService;
         }
-
-        [HttpGet("Get all users")]
+        [Route("Get all users")]
+        [HttpGet]
         public async Task<ActionResult<User>> AllUsers()
         {
             return Ok(await userService.GetAllUsers());
         }
 
-        [HttpGet("Get by id")]
+        [Route("Get user by id")]
+        [HttpGet]
         public async Task<IActionResult> UserByID(int id)
         {
             return Ok(await userService.GetUser(id));
         }
 
-        [HttpPost("Add user")]
+        [Route("Add new user")]
+        [HttpPost]
         public async Task<ActionResult<List<User>>> AddUser(User user)
         {
             return Ok(await userService.CreateUser(user));
         }
 
-        [HttpPut("Edit user")]
+        [Route("Edit user")]
+        [HttpPut]
         public async Task<ActionResult<List<User>>> UpdateUser(User user, int id)
         {
             return Ok(await userService.UpdateUser(id, user));
         }
 
-        [HttpDelete("Delete user")]
+        [Route("Delete user by id")]
+        [HttpDelete]
         public async Task<ActionResult<List<User>>> DeleteUser(int id)
         {
             return Ok(await userService.DeleteUser(id));

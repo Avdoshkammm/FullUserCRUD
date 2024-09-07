@@ -15,13 +15,15 @@ namespace RememberTask.Controllers
             _loginServce = loginService;
         }
 
+        [Route("Login")]
         [HttpPost]
         public async Task<IActionResult> Get(string login, string password)
         {
             return Ok(await _loginServce.Login(login, password));
-        } 
+        }
 
-        [HttpPost("register")]
+        [Route("Register")]
+        [HttpPost]
         public async Task<IActionResult> Post(User user)
         {
             return Ok(await _loginServce.Register(user));

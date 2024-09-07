@@ -15,31 +15,35 @@ namespace RememberTask.Controllers
             _roleService = roleService;
         }
 
-        [HttpGet("Get all roles")]
+        [Route("Get all roles")]
+        [HttpGet]
         public async Task<ActionResult<User>> GetAllRoles()
         {
             return Ok(await _roleService.GetAllRole());
         }
-
-        [HttpGet("By id")]
+        [Route("By id")]
+        [HttpGet]
         public async Task<IActionResult> GetByID(int id)
         {
             return Ok(await _roleService.GetRoleByID(id));
         }
 
-        [HttpPost("Add user")]
+        [Route("Add user")]
+        [HttpPost]
         public async Task<ActionResult<List<User>>> AddRoles(Role role)
         {
             return Ok(await _roleService.CreateRole(role));
         }
 
-        [HttpPut("Update user")]
+        [Route("Update user")]
+        [HttpPut]
         public async Task<ActionResult<List<User>>> UpdateRoles(Role role, int id)
         {
             return Ok(await _roleService.UpdateRole(id, role));
         }
 
-        [HttpDelete("Delete user")]
+        [Route("Delete user")]
+        [HttpDelete]
         public async Task<ActionResult<List<User>>> DeleteRoles(int id)
         {
             return Ok(await _roleService.DeleteRole(id));
