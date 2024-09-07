@@ -11,7 +11,7 @@ using RememberTask.Data;
 namespace RememberTask.Migrations
 {
     [DbContext(typeof(UsersDBContext))]
-    [Migration("20240830201335_Initial")]
+    [Migration("20240907031302_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -23,6 +23,28 @@ namespace RememberTask.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("RememberTask.Models.Product", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Products");
+                });
 
             modelBuilder.Entity("RememberTask.Models.Role", b =>
                 {
@@ -47,6 +69,9 @@ namespace RememberTask.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsVerify")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Login")
                         .HasColumnType("nvarchar(max)");

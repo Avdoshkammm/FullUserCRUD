@@ -36,9 +36,17 @@ namespace RememberTask.Service
                 Name = user.Name,
                 Login = user.Login,
                 Password = user.Password,
-                RoleId = 2
+                RoleId = 2,
+                IsVerify = false
             };
-
+            if(user.RoleId != null)
+            {
+                user.RoleId = 2;
+            }
+            if(user.IsVerify != null)
+            {
+                user.IsVerify = false;
+            }
             await _usersDbContext.Users.AddAsync(addUser);
             await _usersDbContext.SaveChangesAsync();
             return addUser;
@@ -48,5 +56,7 @@ namespace RememberTask.Service
 
             //return user;
         }
+
+
     }
 }
