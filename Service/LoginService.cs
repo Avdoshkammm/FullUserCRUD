@@ -49,6 +49,6 @@ namespace RememberTask.Service
             await _usersDbContext.Users.AddAsync(addUser);
             await _usersDbContext.SaveChangesAsync();
             return addUser;
-        }
+        }   
     }
 }

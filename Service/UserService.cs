@@ -5,21 +5,21 @@ using RememberTask.Models;
 
 namespace RememberTask.Service
 {
-    public class UserService : IUser<User>
+    public class UserService : ICRUD<User>
     {
         public UsersDBContext _dbContext { get; set; }
         public UserService(UsersDBContext dbContext)
         {
             _dbContext = dbContext;
         }
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAll()
         {
-            //            User user = await _usersDbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Login == login && u.Password == password);
             return await _dbContext.Users.Include(u => u.Role).ToListAsync();
         }
-        public async Task<User> GetUser(int id)
+
+        public async Task<User> GetByID(int id)
         {
-            User user = await _dbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
+            User user = await _dbContext.Users.Include(u =>u.Role).FirstOrDefaultAsync(u => u.Id == id);
             if(user == null)
             {
                 Console.WriteLine("null");
@@ -27,50 +27,47 @@ namespace RememberTask.Service
             }
             return user;
         }
-        public async Task<User> CreateUser(User user)
-        {
-            await _dbContext.Users.AddAsync(user);
-            await _dbContext.SaveChangesAsync();
-            return user;
-        }
 
+        public async Task<User> Create(User name)
+        {
+            await _dbContext.Users.AddAsync(name);
+            await _dbContext.SaveChangesAsync();
+            return name;
+        }
         private bool UserAvaliable(int id)
         {
             return (_dbContext.Users?.Any(x => x.Id == id)).GetValueOrDefault();
         }
-        public async Task<User> UpdateUser(int id, User user)
+        public async Task<User> Update(int id, User name)
         {
-            if(id != user.Id)
+            if(id != name.Id)
             {
                 Console.WriteLine("null");
             }
-            _dbContext.Entry(user).State = EntityState.Modified;
+            _dbContext.Entry(name).State = EntityState.Modified;
 
             try
             {
                 await _dbContext.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                if(!UserAvaliable(id))
+                if (!UserAvaliable(id))
                 {
                     Console.WriteLine(ex.Message.ToString());
                 }
-                else
-                {
-                    throw;
-                }
             }
-            return user;
+            return name;
         }
-        public async Task<User> DeleteUser(int id)
+
+        public async Task<User> Delete(int id)
         {
             if(_dbContext == null)
             {
                 Console.WriteLine("null");
             }
             var delUs = await _dbContext.Users.FindAsync(id);
-            if(delUs == null)
+            if (delUs != null)
             {
                 return null;
             }

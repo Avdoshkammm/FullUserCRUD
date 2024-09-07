@@ -5,18 +5,20 @@ using RememberTask.Models;
 
 namespace RememberTask.Service
 {
-    public class ProductService : IProduct<Product>
+    public class ProductService : ICRUD<Product>
     {
         private readonly UsersDBContext _dbContext;
         public ProductService(UsersDBContext dBContext)
         {
             _dbContext = dBContext;
         }
-        public async Task<List<Product>> GetAllProduct()
+
+        public async Task<List<Product>> GetAll()
         {
             return await _dbContext.Products.ToListAsync();
         }
-        public async Task<Product> GetProductByID(int id)
+
+        public async Task<Product> GetByID(int id)
         {
             Product product = await _dbContext.Products.FindAsync(id);
             if(product == null)
@@ -26,24 +28,26 @@ namespace RememberTask.Service
             }
             return product;
         }
-        public async Task<Product> CreateProduct(Product product)
+
+        public async Task<Product> Create(Product name)
         {
-            await _dbContext.Products.AddAsync(product);
+            await _dbContext.Products.AddAsync(name);
             await _dbContext.SaveChangesAsync();
-            return product;
+            return name;
         }
 
-        private bool ProductAvaliable(int id)
+        private bool ProductAvaiable(int id)
         {
             return (_dbContext.Products?.Any(x => x.ID == id)).GetValueOrDefault();
         }
-        public async Task<Product> UpdateProduct(int id, Product product)
+
+        public async Task<Product> Update(int id, Product name)
         {
-            if(id != product.ID)
+            if(id != name.ID)
             {
                 Console.WriteLine("null");
             }
-            _dbContext.Entry(product).State = EntityState.Modified;
+            _dbContext.Entry(name).State = EntityState.Modified;
 
             try
             {
@@ -51,18 +55,19 @@ namespace RememberTask.Service
             }
             catch (Exception ex)
             {
-                if(!ProductAvaliable(id))
+                if(!ProductAvaiable(id))
                 {
-                    Console.WriteLine(ex.Message.ToString());
+                    Console.WriteLine("Error");
                 }
                 else
                 {
                     throw;
                 }
             }
-            return product;
+            return name;
         }
-        public async Task<Product> DeleteProduct(int id)
+
+        public async Task<Product> Delete(int id)
         {
             if(_dbContext == null)
             {
@@ -74,10 +79,8 @@ namespace RememberTask.Service
                 return null;
             }
             _dbContext.Products.Remove(prod);
-
             await _dbContext.SaveChangesAsync();
             return prod;
         }
-
     }
 }

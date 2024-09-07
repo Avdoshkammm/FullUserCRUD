@@ -19,34 +19,34 @@ namespace RememberTask.Controllers
         [HttpGet]
         public async Task<ActionResult<User>> GetAllRoles()
         {
-            return Ok(await _roleService.GetAllRole());
+            return Ok(await _roleService.GetAll());
         }
         [Route("By id")]
         [HttpGet]
         public async Task<IActionResult> GetByID(int id)
         {
-            return Ok(await _roleService.GetRoleByID(id));
+            return Ok(await _roleService.GetByID(id));
         }
 
         [Route("Add user")]
         [HttpPost]
         public async Task<ActionResult<List<User>>> AddRoles(Role role)
         {
-            return Ok(await _roleService.CreateRole(role));
+            return Ok(await _roleService.Create(role));
         }
 
         [Route("Update user")]
         [HttpPut]
         public async Task<ActionResult<List<User>>> UpdateRoles(Role role, int id)
         {
-            return Ok(await _roleService.UpdateRole(id, role));
+            return Ok(await _roleService.Update(id, role));
         }
 
         [Route("Delete user")]
         [HttpDelete]
         public async Task<ActionResult<List<User>>> DeleteRoles(int id)
         {
-            return Ok(await _roleService.DeleteRole(id));
+            return Ok(await _roleService.Delete(id));
         }
 
     }

@@ -5,46 +5,48 @@ using RememberTask.Models;
 
 namespace RememberTask.Service
 {
-    public class RoleService : IRole<Role>
+    public class RoleService : ICRUD<Role>
     {
         private readonly UsersDBContext _dbContext;
         public RoleService(UsersDBContext dBContext)
         {
             _dbContext = dBContext;
         }
-        public async Task<List<Role>> GetAllRole()
+        public async Task<List<Role>> GetAll()
         {
             return await _dbContext.Roles.ToListAsync();
         }
-        public async Task<Role> GetRoleByID(int id)
+
+        public async Task<Role> GetByID(int id)
         {
             Role role = await _dbContext.Roles.FindAsync(id);
-            if (role == null)
+            if(role == null)
             {
                 Console.WriteLine("null");
                 return null;
             }
             return role;
         }
-        public async Task<Role> CreateRole(Role role)
+
+        public async Task<Role> Create(Role name)
         {
-            await _dbContext.Roles.AddAsync(role);
+            await _dbContext.Roles.AddAsync(name);
             await _dbContext.SaveChangesAsync();
-            return role;
+            return name;
         }
 
         private bool RoleAvaliable(int id)
         {
-            return(_dbContext.Roles?.Any(x => x.Id == id)).GetValueOrDefault();
+            return (_dbContext.Roles?.Any(x => x.Id == id)).GetValueOrDefault();
         }
 
-        public async Task<Role> UpdateRole(int id, Role role)
+        public async Task<Role> Update(int id, Role name)
         {
-            if(id != role.Id)
+            if(id != name.Id)
             {
                 Console.WriteLine("null");
             }
-            _dbContext.Entry(role).State = EntityState.Modified;
+            _dbContext.Entry(name).State = EntityState.Modified;
 
             try
             {
@@ -52,32 +54,28 @@ namespace RememberTask.Service
             }
             catch (Exception ex)
             {
-                if (!RoleAvaliable(id))
+                if(!RoleAvaliable(id))
                 {
                     Console.WriteLine(ex.Message.ToString());
                 }
-                else
-                {
-                    throw;
-                }
             }
-            return role;
+            return name;
         }
-        public async Task<Role> DeleteRole(int id)
+
+        public async Task<Role> Delete(int id)
         {
             if(_dbContext == null)
             {
-                Console.WriteLine("null to del");
+                Console.WriteLine("null");
             }
-            var ROL = await _dbContext.Roles.FindAsync(id);
-            if( ROL == null)
+            var rol = await _dbContext.Roles.FindAsync(id);
+            if(rol == null)
             {
                 return null;
             }
-            _dbContext.Roles.Remove(ROL);
-
+            _dbContext.Roles.Remove(rol);
             await _dbContext.SaveChangesAsync();
-            return ROL;
+            return rol;
         }
     }
 }
