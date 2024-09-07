@@ -31,38 +31,22 @@ namespace RememberTask.Service
 
         public async Task<User> Register(User user) 
         {
-            await _usersDbContext.Users.AddAsync(user);
+            var addUser = new User
+            {
+                Name = user.Name,
+                Login = user.Login,
+                Password = user.Password,
+                RoleId = 2
+            };
+
+            await _usersDbContext.Users.AddAsync(addUser);
             await _usersDbContext.SaveChangesAsync();
-            Console.WriteLine("User success add");
+            return addUser;
+            //await _usersDbContext.Users.AddAsync(user);
+            //await _usersDbContext.SaveChangesAsync();
+            //Console.WriteLine("User success add");
 
-            return user;
+            //return user;
         }
-
-
-
-        //public async Task<int> Login(string login, string password)
-        //{
-        //    User user = await _usersDbContext.Users.FirstOrDefaultAsync(u => u.Password == password && u.Login == login);
-
-        //    if(user == null)
-        //    {
-        //        Console.WriteLine("Chech login/password");
-        //    }
-        //    else
-        //    {
-        //        return user.ID;
-        //    }
-        //    return 0;
-        //}
-
-
-        //public async Task<User> Register(User user)
-        //{
-        //    var us = await _usersDbContext.Users.AddAsync(user);
-        //    await _usersDbContext.SaveChangesAsync();
-        //    return user;
-        //}
-
-
     }
 }
