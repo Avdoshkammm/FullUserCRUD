@@ -36,19 +36,31 @@ namespace RememberTask.Service
                 Login = user.Login,
                 Password = user.Password,
                 RoleId = 2,
-                IsVerify = false
+                IsVerify = 0
             };
-            if(user.RoleId != null)
+            if (user.RoleId != null)
             {
                 user.RoleId = 2;
             }
-            if(user.IsVerify != null)
+            if (user.IsVerify != null)
             {
-                user.IsVerify = false;
+                user.IsVerify = 0;
             }
             await _usersDbContext.Users.AddAsync(addUser);
             await _usersDbContext.SaveChangesAsync();
             return addUser;
-        }   
+        }
+        public async Task<User> Verify(User user, int id)
+        {
+            if (user.RoleId == 1 && user.IsVerify == 1)
+            {
+                Console.WriteLine("User is SUDO");
+            }
+            else
+            {
+                Console.WriteLine("User is not sudo ;-;");
+            }
+            return user;
+        }
     }
 }
