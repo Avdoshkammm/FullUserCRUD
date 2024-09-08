@@ -4,6 +4,6 @@
     {
         Task<T2> Login (T login, T password);
         Task<T2> Register (T2 name);
-        Task<T2> Verify (T2 value, int id);
+        Task<bool> Verify (int id);
     }
 }

@@ -11,8 +11,8 @@ using RememberTask.Data;
 namespace RememberTask.Migrations
 {
     [DbContext(typeof(UsersDBContext))]
-    [Migration("20240907183924_verify")]
-    partial class verify
+    [Migration("20240907203744_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

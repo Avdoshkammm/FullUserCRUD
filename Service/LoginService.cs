@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 using RememberTask.Data;
 using RememberTask.Interface;
 using RememberTask.Models;
@@ -13,54 +14,73 @@ namespace RememberTask.Service
             _usersDbContext = usersDBContext;
         }
 
+        //Авторизация
         public async Task<User> Login(string login, string password)
         {
             User user = await _usersDbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Login == login && u.Password == password);
-
             if (user == null)
             {
-                Console.WriteLine("null");
+                Console.WriteLine("User is null");
+                return null;
             }
             else
             {
-                Console.WriteLine(user.Id);
+                Console.WriteLine("Nice");
+                return user;
             }
-            return user;
         }
-
-        public async Task<User> Register(User user) 
+        //Регистрация
+        public async Task<User> Register(User user)
         {
+            var exsistingUser = await _usersDbContext.Users.FirstOrDefaultAsync(u => u.Login == user.Login);
+            if (exsistingUser != null)
+            {
+                Console.WriteLine("пользователь с таким логином уже существует");
+                return null;
+            }
+
             var addUser = new User
             {
                 Name = user.Name,
                 Login = user.Login,
                 Password = user.Password,
                 RoleId = 2,
-                IsVerify = 0
+                IsVerify = 2
             };
-            if (user.RoleId != null)
-            {
-                user.RoleId = 2;
-            }
-            if (user.IsVerify != null)
-            {
-                user.IsVerify = 0;
-            }
+
             await _usersDbContext.Users.AddAsync(addUser);
             await _usersDbContext.SaveChangesAsync();
-            return addUser;
-        }
-        public async Task<User> Verify(User user, int id)
-        {
-            if (user.RoleId == 1 && user.IsVerify == 1)
-            {
-                Console.WriteLine("User is SUDO");
-            }
-            else
-            {
-                Console.WriteLine("User is not sudo ;-;");
-            }
             return user;
         }
+        //Верификация
+        public async Task<bool> Verify(int id)
+        {
+            //Нахождение пользователя по id
+            var user = await _usersDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if(user == null)
+            {
+                Console.WriteLine("User is null");
+                return false;
+            }
+
+            //Проверка верификации пользователя
+
+            if(user.IsVerify == 1)
+            {
+                Console.WriteLine("User is verify");
+                return false;
+            }
+
+            //Обновление статуса верификации
+            user.IsVerify = 1;
+            await _usersDbContext.SaveChangesAsync();
+
+            Console.WriteLine("user is verified");
+            return true;
+        }
+
+
+        ////сделать метод который будет чисто возвращать роль указанного в него пользователя
+        ////сделать метод который будет возвращать админку
     }
 }

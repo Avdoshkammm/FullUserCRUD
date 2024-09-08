@@ -5,7 +5,7 @@
 namespace RememberTask.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,7 +47,7 @@ namespace RememberTask.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Login = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsVerify = table.Column<bool>(type: "bit", nullable: false),
+                    IsVerify = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

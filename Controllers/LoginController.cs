@@ -28,5 +28,12 @@ namespace RememberTask.Controllers
         {
             return Ok(await _loginServce.Register(user));
         }
+
+        [Route("Verify")]
+        [HttpPost]
+        public async Task<IActionResult> PostVerify( int id)
+        {
+            return Ok(await _loginServce.Verify( id));
+        }
     }
 }
