@@ -2,6 +2,7 @@
 using RememberTask.Data;
 using RememberTask.Interface;
 using RememberTask.Models;
+using System.Runtime.InteropServices;
 
 namespace RememberTask.Service
 {
@@ -13,6 +14,7 @@ namespace RememberTask.Service
             _usersDbContext = usersDBContext;
         }
 
+        
         public async Task<string> GetUserRole(int userID)
         {
             var user = await _usersDbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == userID);
@@ -56,6 +58,53 @@ namespace RememberTask.Service
             await _usersDbContext.SaveChangesAsync();
             return user;
         }
+        /*
+         public async Task<Product> Update(int id, Product name)
+        {
+            if(id != name.ID)
+            {
+                Console.WriteLine("null");
+            }
+            _dbContext.Entry(name).State = EntityState.Modified;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                if(!ProductAvaiable(id))
+                {
+                    Console.WriteLine("Error");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return name;
+        }
+         
+         
+         */
+        public async Task<User> ResetPassword(int id, User user)
+        {
+            if(id != user.Id)
+            {
+                Console.WriteLine("User is null");
+            }
+            _usersDbContext.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _usersDbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString);
+            }
+            return user;
+        }
 
         public async Task<bool> Verify(int id)
         {
@@ -78,6 +127,9 @@ namespace RememberTask.Service
             Console.WriteLine("user is verified");
             return true;
         }
+
+        
+        
 
 
 

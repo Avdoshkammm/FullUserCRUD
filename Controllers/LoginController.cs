@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using RememberTask.Models;
 using RememberTask.Service;
@@ -41,6 +42,12 @@ namespace RememberTask.Controllers
         public async Task<IActionResult> GetUserRole(int userId)
         {
             return Ok(await _loginServce.GetUserRole(userId));
+        }
+
+        [HttpPut("reset-password")]
+        public async Task<IActionResult> ResetPassword(int id, User user)
+        {
+            return Ok(await _loginServce.ResetPassword(id, user));
         }
     }
 }

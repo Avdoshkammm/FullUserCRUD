@@ -5,9 +5,11 @@
         Task<T2> Login (T login, T password);
         Task<T2> Register (T2 name);
         Task<bool> Verify (int id);
-
         Task<string> GetUserRole(int userID);
 
+        Task<T2> ResetPassword(int id, T2 user);
         
+
+
     }
 }
