@@ -35,5 +35,12 @@ namespace RememberTask.Controllers
         {
             return Ok(await _loginServce.Verify( id));
         }
+
+        [Route("Get user role")]
+        [HttpGet]
+        public async Task<IActionResult> GetUserRole(int userId)
+        {
+            return Ok(await _loginServce.GetUserRole(userId));
+        }
     }
 }

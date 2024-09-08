@@ -13,6 +13,17 @@ namespace RememberTask.Service
             _usersDbContext = usersDBContext;
         }
 
+        public async Task<string> GetUserRole(int userID)
+        {
+            var user = await _usersDbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == userID);
+            if(user == null)
+            {
+                Console.WriteLine("Пользователь не найден");
+                return null;
+            }
+            return user.Role?.Name;
+        }
+
         public async Task<User> Login(string login, string password)
         {
             User user = await _usersDbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Login == login && u.Password == password);
@@ -58,7 +69,7 @@ namespace RememberTask.Service
             if(user.IsVerify == 1)
             {
                 Console.WriteLine("User is verify");
-                return false;
+                return true;
             }
 
             user.IsVerify = 1;
@@ -67,6 +78,9 @@ namespace RememberTask.Service
             Console.WriteLine("user is verified");
             return true;
         }
+
+
+
 
         //сделать метод который будет чисто возвращать роль указанного в него пользователя
         //сделать метод который будет возвращать админку
