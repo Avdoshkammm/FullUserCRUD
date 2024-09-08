@@ -45,9 +45,9 @@ namespace RememberTask.Controllers
         }
 
         [HttpPut("reset-password")]
-        public async Task<IActionResult> ResetPassword(int id, User user)
+        public async Task<IActionResult> ResetPassword(int id, string newPassword)
         {
-            return Ok(await _loginServce.ResetPassword(id, user));
+            return Ok(await _loginServce.ResetPassword(id, newPassword));
         }
     }
 }

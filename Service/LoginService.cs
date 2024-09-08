@@ -58,52 +58,20 @@ namespace RememberTask.Service
             await _usersDbContext.SaveChangesAsync();
             return user;
         }
-        /*
-         public async Task<Product> Update(int id, Product name)
-        {
-            if(id != name.ID)
-            {
-                Console.WriteLine("null");
-            }
-            _dbContext.Entry(name).State = EntityState.Modified;
 
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                if(!ProductAvaiable(id))
-                {
-                    Console.WriteLine("Error");
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return name;
-        }
-         
-         
-         */
-        public async Task<User> ResetPassword(int id, User user)
+        public async Task<bool> ResetPassword(int userID, string newPassword)
         {
-            if(id != user.Id)
+            User user = await _usersDbContext.Users.FirstOrDefaultAsync(u => u.Id == userID);
+            if (user == null)
             {
-                Console.WriteLine("User is null");
+                Console.WriteLine("User not found");
+                return false;
             }
+
+            user.Password = newPassword;
             _usersDbContext.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _usersDbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString);
-            }
-            return user;
+            await _usersDbContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> Verify(int id)
@@ -128,13 +96,7 @@ namespace RememberTask.Service
             return true;
         }
 
-        
-        
-
-
-
-
-        //сделать метод который будет чисто возвращать роль указанного в него пользователя
+        //сделать метод который будет чисто возвращать роль указанного в него пользователя +
         //сделать метод который будет возвращать админку
     }
 }
